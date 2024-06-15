@@ -1,0 +1,11 @@
+#explorerMainPanel {
+    grid-template-rows   : repeat(auto-fill, minmax(5vh, auto));
+    grid-template-columns: repeat(auto-fill, minmax(10vh, auto));
+}
+
+
+.explorerElement,
+.desktopElement {
+  width : 15vw;
+  /* height: 48px; */
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="styleMobile.css"> -->
+</head>
+
+<body>
+  <!-- <div id="mainContainer"> -->
+  <!--main window-->
+  <div id="workspace">
+
+    <figure id="imgExplorer" class="desktopFigure">
+      <img src="pictures/explorerIcon.png" alt="Explorer" class="desktopElement">
+      <figcaption>Explorer</figcaption>
+    </figure>
+
+
+    <!--invisible divs like the explorer, which only gets visible when clicking the explorer icon-->
+    <div id="explorer" class="allowContextMenu">
+      <!-- <div class="resizer" id="resizer-bottom"> </div>
+      <div class="resizer" id="resizer-right"> </div>
+      <div class="resizer" id="resizer-bottomRight"> </div> -->
+
+      <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+      <div id="explorerWindowDragFrame">
+        <div id="menuWrapper">
+          <img src="pictures/leftArrow.png" id="explorerMenuBack" class="menubar_item selectable">
+          <img src="pictures/leftArrow.png" id="explorerMenuForward" class="menubar_item selectable"
+            style="transform:rotate(180deg);">
+          <img src="pictures/refresh.png" id="explorerMenuRefresh" class="menubar_item selectable">
+          <img src="pictures/delete.png" id="explorerMenuDelete" class="menubar_item">
+          <img src="pictures/cut.png" id="explorerMenuCut" class="menubar_item">
+          <img src="pictures/copy.png" id="explorerMenuCopy" class="menubar_item">
+          <img src="pictures/paste.png" id="explorerMenuPaste" class="menubar_item">
+          <img src="pictures/rootFolderOpen.png" id="explorerMenuMkdir" class="menubar_item selectable">
+          <img src="pictures/upload.png" id="explorerMenuUpload" class="menubar_item selectable">
+          <img src="pictures/upload.png" id="explorerMenuDownload" class="menubar_item"
+            style="transform:rotate(180deg);">
+            <img src="pictures/closeButton.png" title="close" id="closeExplorer" class="close">
+        </div>
+
+
+        <div id="pathAddressBar"></div>
+      </div>
+
+      <!--file browse on the left-->
+      <div id="explorerRootScroll">
+        <ul id="rootListUL" class="explorerRootUlElement"></ul>
+      </div>
+
+      <!--main panel with the files and folders lined up-->
+      <div id="explorerMainPanel"></div>
+
+      <!-- uploadPanel containing the progressbars for file uploads -->
+      <div id="uploadPanel"></div>
+    </div>
+
+    <!-- -----------------TEST--------------------- -->
+
+
+    <div height="400px">
+      <p id="test">
+        ------TODO:-----<br><br>
+        check if the change from element to array of currentSelectedItem, copyItem, and cutItem was successful<br>
+        make sorting algorythm, so you can sort by name or so<br>
+        Add select all elements button to the explorer (for mobile users necessary)<br>
+        </p>
+    </div>
+
+    <div height="400px">
+      <textarea id="console" rows="25" cols="50">Console start...</textarea>
+    </div>
+
+
+    <!-- -----------------No concreate place in the html page---------- -->
+
+    <!-- <canvas id="explorerMainPanelCanvas"></canvas> -->
+
+    <!-- Right click explorer context menu -->
+    <nav id="context-menu" class="context-menu">
+      <ul class="context-menu__items">
+        <li class="context-menu__item selectable" command="upload">Upload File</li>
+        <li id="cm-download" class="context-menu__item" command="download">Download</li>
+        <li id="cm-copy" class="context-menu__item" command="copy">Copy</li>
+        <li id="cm-cut" class="context-menu__item" command="cut">Cut</li>
+        <li id="cm-paste" class="context-menu__item" command="paste">Paste</li>
+      </ul>
+    </nav>
+
+    <!-- file selector for uploading files (multiple statement, to allow upload of more than one file at a time) -->
+    <input id='fileSelect' multiple type='file' hidden />
+
+
+  </div>
+
+
+  <div id="mainMenuBar">
+    <div class="seperator"></div>
+
+    <ul id="mainMenuBarUl">
+      
+
+      <li class="mainMenuBarLi">
+        <img src="pictures/home.png" id="homeButton" class="homeMenuImg mainMenuBarImg">
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- </div> -->
+
+</body>
+
+
+<script src="KWSscript.js"></script>
+
+</html>

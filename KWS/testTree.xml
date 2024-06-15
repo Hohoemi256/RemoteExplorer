@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root path="/">hhasd
+        <folder>TestFolder1</folder>
+        <folder>TestFoldaer1</folder>
+        <folder>TestFolasfder1</folder>
+        <folder>TestFoldefasfdhgr1</folder>
+        <folder>TestFoldefdjgr1</folder>
+        <folder>TestFr1</folder>
+        <folder>Test -Folder wqae -jahj2 fsjasssssssssssssssssssssssssssssssssssssssssssssssssssss s asdas das dkvbfasb888</folder>
+        <file>Hakllo.txt</file>
+        <file>Hako 22.txt</file>
+        <file>Haklo 22.txt</file>
+        <file>Haklo2.txt</file>
+        <file>Hakllo 2sgaf2.txt</file>
+        <file>Hakllo saf22.txt</file>
+</root>
+
+<!-- path attribute can start with a /, but does not have to. Root directory is "/" or empty (""). Also the path can, but does not have to end with a "/"" 
+e.g.: "/C:/aPath" , "C:/aPath", "/C:/aPath" and "C:/aPath/ are all valid path parameters"-->
