@@ -18,6 +18,9 @@ Communication is done via Ajax, so after the initial UI is sent as a webpage, ev
 - Uploads as well as downloads of files is possible. Download of whole folders as zip files is also possible.
 - Usage of standard keys and combinations like DEL, CTRL+C, CTRL+V, CTRL+X.
 
+![Explorer](Explorer example.png)
+
 ## ToDo:
 - Enable sorting by various properties like size, file type…
 - Add a select all button (especially for mobile users 
+
