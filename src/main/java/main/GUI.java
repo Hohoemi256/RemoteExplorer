@@ -28,11 +28,14 @@ import javax.swing.JTextField;
 import kiraNeccesaryLibs.Internet;
 import kiraNeccesaryLibs.LogWriter;
 
+/**
+ * Class that represents the Server GUI. It includes all important variables like the IP and port which are used to access the server and allows you to change the port.
+ * Further shows the console output of the java console for potential troubleshooting.
+ * Minimizing the GUI will hide it as a Trayicon.
+ * @author Hohoemi
+ */
 public class GUI extends JFrame implements ActionListener, ItemListener, WindowStateListener{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -72,6 +75,9 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 	
 	private JFrame self=this;
 	
+	/**
+	 * Initialize the Tray class that keeps the program running in the tray bar when minimized
+	 */
 	Tray tr = new Tray(new File(Vars.getHtmlFolderPath()+File.separator+"ServerTrayIcon.png")) {
 		
 		@Override
@@ -167,7 +173,10 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 		ipLabel.setText(ipLabel.getText()+"</html>");
 	}
 	
-	
+	/**
+	 * Will capture all console output and display it in the stated JTextArea.
+	 * @param log2 The JTextArea where the output shall be displayed
+	 */
 	private void captureLog(JTextArea log2) {
 		final PrintStream old = System.out;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -248,13 +257,15 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Action Performed");
-
+		
+		//Show/Hide the console output panel
 		if(showLog.isSelected() && !mainPanel.isAncestorOf(scrollPane)) {
 			mainPanel.add(scrollPane);
 		}else if(!showLog.isSelected() && mainPanel.isAncestorOf(scrollPane)) {
 			mainPanel.remove(scrollPane);
 		}
 
+		//Handle several commands depending on the action performed
 		String sw = e.getActionCommand();
 		switch (sw) {
 		
@@ -300,7 +311,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 
 	@Override
 	public void windowStateChanged(WindowEvent e) {
-		   // minimized
+		   // if minimized --> hide GUI
 		   if ((e.getNewState() & Frame.ICONIFIED) == Frame.ICONIFIED){
 			   System.out.println("minimized");
 				this.setVisible(false);

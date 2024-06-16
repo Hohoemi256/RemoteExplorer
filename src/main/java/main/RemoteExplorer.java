@@ -1,10 +1,9 @@
 package main;
 
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +11,6 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,15 +51,6 @@ public class RemoteExplorer extends Vars{
 	 * Makes the sending faster, but also ignores changes made during that time to the original file. So if your files are changing while the server is running, you might want to set this value to false.
 	 */
 	private boolean useCache = false;
-	//	public static String HTML_CODE = "<html>\r\n" + 
-	//		"<body>\r\n" + 
-	//		"\r\n" + 
-	//		"<h1>My First Heading2</h1>\r\n" + 
-	//		"<p>My first paragraph.</p>\r\n" + 
-	//		"\r\n" + 
-	//		"</body>\r\n" + 
-	//		"</html>";
-
 
 
 	/** The Hashtable used to cache all URLs, images etc. we've read (otherwise we would always e.g. read the bytes of an image which is requested, but like this we can just send the cached bytes directly (faster)).
@@ -86,16 +75,23 @@ public class RemoteExplorer extends Vars{
 	 * @throws IOException
 	 */
 	public RemoteExplorer(int port) throws IOException {
+		Vars.setPort(port);
 	}
 
 	/**
-	 * Starts a server with the default port of 8080
+	 * Starts a server with the default port as stated in {@link Vars#getPort()}
 	 * @throws IOException
 	 */
 	public RemoteExplorer() throws IOException {
 		//		init();
 	}
 
+	/**
+	 * Example of how to initialize and start the server. 
+	 * @param args
+	 * @throws Exception
+	 * @throws Throwable
+	 */
 	public static void main (String [] args) throws Exception, Throwable{
 		RemoteExplorer ser = new RemoteExplorer();
 		ser.startServer();
@@ -103,14 +99,6 @@ public class RemoteExplorer extends Vars{
 		ser.stopServer();
 		System.out.println("end of code");
 	}
-
-	//	private void init() {
-	//		HTML_CODE="";
-	//		for(String s : KiraTxtIni.txtReader("index.html")) {
-	//			HTML_CODE+=s;
-	//		}
-	//		System.out.println(HTML_CODE);
-	//	}
 
 
 	/**
@@ -161,6 +149,7 @@ public class RemoteExplorer extends Vars{
 					System.out.println("Connection accepted from " +
 							remote.getInetAddress());
 					
+					//Start a new Thread to handle all requests from the newly connected client
 					Thread handle = new Thread(new Runnable() {
 
 						public void run() {
@@ -178,7 +167,7 @@ public class RemoteExplorer extends Vars{
 					{
 						System.out.println("server shutdown");
 						break;
-					}else	//irgendwie kaputt gegangen (noch nie vorgekommen)
+					}else	//irgendwie kaputt gegangen (noch nie vorgekommen, aber nur für den Fall der Faelle)
 					{	
 						server= new ServerSocket(getPort());
 						System.out.println("restart server");
@@ -197,7 +186,12 @@ public class RemoteExplorer extends Vars{
 
 
 
-
+/**
+ * Processes all requests that come from the connected Socket. Usually this should be someone who connects to the server via a webbrowser.
+ * Sends, depending on the request, html data ({@link #RQ_GET},{@link #RQ_HEAD} or other informations like some information which is enquired by an ajax request ({@link #RQ_KWS}, {@link #RQ_POST}).
+ * @param remote the client which is connected
+ * @throws IOException
+ */
 	private void processRequest(Socket remote) throws IOException {
 		//make sure it uses UTF_8 as decoding like in the javascript file, as otherwise our escape characters will get auto transformed back
 		InputStreamReader isr = new InputStreamReader(
@@ -206,15 +200,16 @@ public class RemoteExplorer extends Vars{
 		BufferedReader in = new BufferedReader(isr);
 		//		PrintWriter out = new PrintWriter(remote.getOutputStream());
 		PrintStream out = new PrintStream(remote.getOutputStream());
-
+		
+		//Read the request from the client
 		HashMap<String, String> requestMap = readIncomming(in);
 		
 		if(requestMap==null) {System.out.println("Socket died or timeout");return;}
 
-		String[] sa =  requestMap.get(HEADER).split(" ");
-		String rqCode = sa[0];
-		String rqName = sa[1];
-		String rqHttpVer = sa[2];
+		String[] sa =  requestMap.get(HEADER).split(" "); //extract infos by splitting the HEADER string at spaces
+		String rqCode = sa[0]; //request code to identify what the client want exactly
+		String rqName = sa[1]; //optional or extending information that is delivered afterwards to tell the command in more detail
+		String rqHttpVer = sa[2]; //What http version is used
 		System.out.println("Request: Command: \"" + rqCode +
 				"\"; file or command: \"" + rqName + "\"; version: " + rqHttpVer);
 
@@ -248,7 +243,7 @@ public class RemoteExplorer extends Vars{
 
 	}
 
-	
+	@Deprecated
 	private String readPOSTBody(BufferedReader in) {
 
 		System.out.println("POST!");
@@ -287,6 +282,13 @@ public class RemoteExplorer extends Vars{
 		return null;
 	}
 
+	/**
+	 * Reads the next request from the client as soon as available.
+	 * The generated {@link HashMap} contains all informations of the request, that is to date the header, commands and parameter/additional information.
+	 * @param in the {@link BufferedReader} linked to the {@link Socket} of the client
+	 * @return a HashMap containing all informations of the request.
+	 * @throws IOException
+	 */
 	private HashMap<String, String> readIncomming(BufferedReader in) throws IOException {
 		System.out.println("start read");
 
@@ -325,12 +327,14 @@ public class RemoteExplorer extends Vars{
 		while ((hdrLine = in.readLine()) != null &&
 				hdrLine.length() != 0) {
 			int ix;
+			//extract the hdrName and hdrValue (=command and optional information) if present in the header (determined by having a ":" in the header string)
 			if ((ix=hdrLine.indexOf(':')) != -1) {
+				//Extract the command
 				String hdrName = hdrLine.substring(0, ix);
+				//Extract the optional further parameter and informations
 				String hdrValue = hdrLine.substring(ix+1).trim();
 				//					Debug.println("hdr", hdrName+","+hdrValue);
 				ret.put(hdrName, hdrValue);
-//				System.out.println(hdrValue);
 			} else {
 				System.err.println("INVALID HEADER: " + hdrLine);
 			}
@@ -338,35 +342,22 @@ public class RemoteExplorer extends Vars{
 		System.out.println("header reading done");
 		System.out.println("request: "+request);
 		
-//		
-//		//TEST
-		
-//		if(request.equalsIgnoreCase("POST /upload?path=my%20wine%20meme.jpg HTTP/1.1")) {
-//			
-//		int t = 0;
-//		String tl = "";
-//		System.out.println("start read ooooooooooooooooooooooooooOOO");
-//		while () != null &&
-//				hdrLine.length() != 0) {
-//			System.out.println("reading line");
-//			tl+=hdrLine;
-//			t++;
-//			System.out.println(hdrLine);
-//		}
-//		}
-//		
-//		
-//		//TEST ENDE
-		//------------------------------------------
 		return ret;
 	}
 
 
-	/** Sends an error response, by number, hopefully localized. */
+	/** Sends an error response, in HTML style. Error can be defined by number (e.g.404) where the according interpretation and response is sent.
+	 * In case the error number is not found it will send the error message stated by you as.
+	 *  
+	 * @param errNum the error indicated by number.
+	 * @param errMsg backup error message to send in case no adequate error message is found for the error number
+	 * @param out the Stream to the client where to print the error message.
+	 */
 	static void errorResponse(int errNum, String errMsg, PrintStream out) {
 		// Check for localized messages
 		String response;
 
+		//Retrieve the error response in according to the error number (e.g. 404 --> Not found)
 		try { 
 			ResourceBundle messages = ResourceBundle.getBundle("errors");
 			response = messages.getString(Integer.toString(errNum)); }
@@ -382,7 +373,14 @@ public class RemoteExplorer extends Vars{
 		out.println("<h1>" + errNum + " " + response + "</h1>");
 	}
 
-	/** Processes one file request */
+	/** Processes one file request 
+	 * 
+	 * @param rqName
+	 * @param headerOnly
+	 * @param os
+	 * @param map
+	 * @throws IOException
+	 */
 	void processFile(String rqName, boolean headerOnly, PrintStream os, HashMap<String,String> map) throws IOException {
 		rqName = getHtmlFolderPath()+rqName;
 		File f;
@@ -414,13 +412,19 @@ public class RemoteExplorer extends Vars{
 	}
 
 
-
-	void doDirList(String rqName, File dir, boolean justAHead, PrintStream os) {
+/**
+ * Generates a HTML code on the fly which lists the contents of the directory stated
+ * @param rqName
+ * @param dir the directory to explore
+ * @param headerOnly if you just want to send the head without any acutal content
+ * @param os the output stream to the client
+ */
+	void doDirList(String rqName, File dir, boolean headerOnly, PrintStream os) {
 		os.println("HTTP/1.0 200 directory found");
 		os.println("Content-type: text/html");
 		os.println("Date: " + new Date().toString());
 		os.println("");
-		if (justAHead)
+		if (headerOnly)
 			return;
 		os.println("<HTML>");
 		os.println("<TITLE>Contents of directory " + rqName + "</TITLE>");
@@ -433,7 +437,14 @@ public class RemoteExplorer extends Vars{
 					' ' + fl[i] + "</a>");
 	}
 
-	/** Send one file, given a File object. */
+	/** Send one file, given a File object. Will convert the file into bytes and then send it via {@link #sendFile(String, boolean, byte[], PrintStream)}.
+	 * 
+	 * @param rqName
+	 * @param f the file to send for the client and hence download
+	 * @param headerOnly true if you just want to send the header without the actual file bytes
+	 * @param os the output stream towards the client
+	 * @throws IOException
+	 */
 	void processFile(String rqName, File f, boolean headerOnly, PrintStream os) throws IOException {
 		System.out.println("Loading file " + rqName);
 		InputStream in = new FileInputStream(f);
@@ -447,7 +458,8 @@ public class RemoteExplorer extends Vars{
 		in.close();
 	}
 
-	/** Send one file, given the filename and contents.
+	/** Send one file as a byte stream to download, given the filename and contents.
+	 * For specifying a whole file rather than bytes, use {@link #processFile(String, File, boolean, PrintStream)}
 	 * @param justHead - if true, send heading and return.
 	 */
 	static void sendFile(String fname, boolean justHead, byte[] content, PrintStream os) throws IOException {
@@ -465,13 +477,19 @@ public class RemoteExplorer extends Vars{
 	/** The type for unguessable files */
 	final static String UNKNOWN = "unknown/unknown";
 
-	protected static String guessMime(String fn) {
-		String lcname = fn.toLowerCase();
+	/**
+	 * Tries to identify the mime type for the given filename. Will extract the extension info and then search for the mime type which are defined in the 
+	 * mime.properties file.
+	 * @param filename
+	 * @return the mime String if found to be included in your HTTP process
+	 */
+	protected static String guessMime(String filename) {
+		String lcname = filename.toLowerCase();
 
 		//check "makefile" file case
 		int extenStartsAt = lcname.lastIndexOf('.');
 		if (extenStartsAt<0) {
-			if (fn.equalsIgnoreCase("makefile"))
+			if (filename.equalsIgnoreCase("makefile"))
 				return "text/plain";
 			return UNKNOWN;
 		}
@@ -483,6 +501,10 @@ public class RemoteExplorer extends Vars{
 		return guess;
 	}
 
+	/**
+	 * 
+	 * @return True if the server is runing, false otherwise
+	 */
 	public boolean isRunning() {
 		return isRunning;
 	}

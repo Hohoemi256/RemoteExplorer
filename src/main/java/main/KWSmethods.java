@@ -34,7 +34,7 @@ import java.util.zip.ZipOutputStream;
  * The KWS_CODES needed for a successful interpretation are stated in the {@link KWS_CODES} and also in the Javascript file KWSscript.js which is transmitted to the client.
  * <br>Parameters of a command have to follow a "?" after the {@link KWS_CODES} as the command
  * and the parameters itself need to be in the form ("parameter=value") to be correctly interpreted.
- * @author Yari9
+ * @author Hohoemi
  * @see KWS_CODES
  * @see #getParameters(String)
  * @see #handleAJAX(String, PrintStream)
@@ -47,7 +47,7 @@ public class KWSmethods {
 	 * Use the value of these codes when transmitting an ajax request to the server to get a answer.
 	 * The KWS_CODES are defined in the JAVA, as well as in the Javascript file with the same values and linked to a var (or enum) to
 	 * correctly identify them
-	 * @author Yari9
+	 * @author Hohoemi
 	 *
 	 */
 	public enum KWS_CODES {
@@ -890,14 +890,6 @@ public class KWSmethods {
 				
 				System.out.println(oldFile.getName()+" already exists --> new Filename/Folder: "+file.getName());
 				
-				
-				
-				
-//			}else {
-//				TODO SAME WITH FOLDER
-//				file = new File(file.getAbsolutePath()+" ("+nfi+")");
-//				System.out.println(oldFile.getName()+" already exists --> new Folder: "+file.getName());
-//			}
 			nfi++;
 		}
 		System.out.println("END ADJUST with "+file.getName());
@@ -905,48 +897,6 @@ public class KWSmethods {
 	}
 
 
-//private static File adjustFileIfDuplicateWORKS(File file) {
-//	System.out.println("START ADJUST");
-//	//adjust to attach a number if exists and 
-//	int nfi = 0;
-//	while(file.exists()) {
-//		File oldFile=file;
-//		
-//		if(file.isFile()) {
-//			//get the index where the extension part starts in the file name
-//			int pi = file.getAbsolutePath().lastIndexOf(".");
-//			String extension = file.getAbsolutePath().substring(pi);
-//			
-//			//Check if it contains the current number in brackets, else do another round
-//			System.out.println("TEST:"+file.getName());
-//			
-//			//If the same file exists with a "(NUMBER)" like indication do not add a new index, but replace this one with the next higher number ("(1)" --> "(2)")
-//			if(file.getName().contains("("+nfi+")")) {
-//				//new name is highly complicated to only replace the last "(NUMBER)" and not every one
-//				String newName = file.getName().substring(0,file.getName().lastIndexOf(("("+nfi+")"))) //get all of the name except the last number index
-//						+"("+(nfi+1)+")"+extension; //add new number index and file extension
-//				System.out.println("NEW NAME "+newName);
-//				file = new File(file.getAbsolutePath().replace(file.getName(), newName));
-//				System.out.println("NF");
-//			}else {
-//				file = new File(file.getAbsolutePath().substring(0, pi)+" ("+(nfi+1)+")"+extension);
-//				System.out.println("NF NIIIIIIICHT");
-//				System.out.println(file.exists());
-//			}
-//			
-//			System.out.println(oldFile.getName()+" already exists --> new Filename: "+file.getName());
-//		}else {
-////			TODO SAME WITH FOLDER
-//			file = new File(file.getAbsolutePath()+" ("+nfi+")");
-//			System.out.println(oldFile.getName()+" already exists --> new Folder: "+file.getName());
-//		}
-//		nfi++;
-//	}
-//	System.out.println("END ADJUST with "+file.getName());
-//	return file;
-//}
-	
-	
     /**
      * See {@link #zipFile(ArrayList, File)};
      * @param source
@@ -966,17 +916,17 @@ public class KWSmethods {
      * @param zipDestination the location of the zip file which is to be created
      * @throws IOException
      */
-	public static void zipFile(ArrayList<File> filesToZip, File zipDestination) throws IOException {
-		FileOutputStream fos = new FileOutputStream(zipDestination);
-		ZipOutputStream zipOut = new ZipOutputStream(fos);
-		        
-        for(File cf : filesToZip) {
-        	System.out.println("zipping: "+cf);
-        zipFileSub(cf, zipDestination.getName(), zipOut);
-        }
-        
-        zipOut.close();
-        fos.close();
+    public static void zipFile(ArrayList<File> filesToZip, File zipDestination) throws IOException {
+    	FileOutputStream fos = new FileOutputStream(zipDestination);
+    	ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+    	for(File cf : filesToZip) {
+    		System.out.println("zipping: "+cf);
+    		zipFileSub(cf, zipDestination.getName(), zipOut);
+    	}
+
+    	zipOut.close();
+    	fos.close();
     }
 	
 	/**
@@ -987,10 +937,11 @@ public class KWSmethods {
 	 * @throws IOException
 	 */
 	private static void zipFileSub(File fileToZip, String zipDestination, ZipOutputStream zipOut) throws IOException {
-      	
+      	// WIll not zip hidden files
         if (fileToZip.isHidden()) {
             return;
         }
+        
         if (fileToZip.isDirectory()) {
             if (zipDestination.endsWith("/")) {
                 zipOut.putNextEntry(new ZipEntry(zipDestination));
@@ -1005,6 +956,7 @@ public class KWSmethods {
             }
             return;
         }
+        
         FileInputStream fis = new FileInputStream(fileToZip);
         ZipEntry zipEntry = new ZipEntry(zipDestination);
         zipOut.putNextEntry(zipEntry);

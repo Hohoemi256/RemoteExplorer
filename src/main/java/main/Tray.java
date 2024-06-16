@@ -22,6 +22,9 @@ import kiraNeccesaryLibs.ImageUtils;
 
 //import image.ImageUtils;
 
+/**
+ * Class to handle the Tray icons behavior and menu.
+ */
 public abstract class Tray implements MouseListener, ActionListener{
 
 	//TODO make this an extended form of the KiraTray, to have one as a basic Tray class and extend it as needed
@@ -37,7 +40,10 @@ public abstract class Tray implements MouseListener, ActionListener{
 
 	public final static String EXIT_ACTION = "exit";
 
-
+	/**
+	 * Constructor that loads the image for the tray icon and adds all listeners for it, as well as sets up the popup menu 
+	 * @param icon
+	 */
 	public Tray(File icon) {
 
 		try {
