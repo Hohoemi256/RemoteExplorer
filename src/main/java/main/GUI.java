@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -26,7 +28,7 @@ import javax.swing.JTextField;
 import kiraNeccesaryLibs.Internet;
 import kiraNeccesaryLibs.LogWriter;
 
-public class GUI extends JFrame implements ActionListener, ItemListener{
+public class GUI extends JFrame implements ActionListener, ItemListener, WindowStateListener{
 
 	/**
 	 * 
@@ -103,6 +105,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener{
 		serverItem.setState(false);
 		serverItem.setActionCommand(SERVER_TOGGLE);
 		serverItem.addItemListener(this);
+		this.addWindowStateListener(this);
+		
 		tr.getPopupMenu().add(serverItem);
 		tr.getPopupMenu().addSeparator();
 		
@@ -292,6 +296,16 @@ public class GUI extends JFrame implements ActionListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		actionPerformed(new ActionEvent(e.getSource(), e.getID(), SERVER_TOGGLE));
+	}
+
+	@Override
+	public void windowStateChanged(WindowEvent e) {
+		   // minimized
+		   if ((e.getNewState() & Frame.ICONIFIED) == Frame.ICONIFIED){
+			   System.out.println("minimized");
+				this.setVisible(false);
+		   }
+		
 	}
 
 

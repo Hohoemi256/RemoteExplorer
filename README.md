@@ -19,6 +19,8 @@ Communication is done via Ajax, so after the initial UI is sent as a webpage, ev
 - Usage of standard keys and combinations like DEL, CTRL+C, CTRL+V, CTRL+X.
 
 ![Explorer Window to browse for files](Explorer_example.png)
+- You can select the port at which the server should run
+- Minimizing the Window will bring hide it as a taskbar icon
 
 ![Server GUI](Server_GUI_example.png)
 
