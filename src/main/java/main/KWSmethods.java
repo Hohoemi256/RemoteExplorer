@@ -725,7 +725,7 @@ public class KWSmethods {
 	 */
 	private static void sendText(String answer, PrintStream out) {
 		if(answer == null) {
-			WebServer.errorResponse(404, "File not found", out);
+			RemoteExplorer.errorResponse(404, "File not found", out);
 			return;
 		}
 

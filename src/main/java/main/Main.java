@@ -19,7 +19,7 @@ public class Main {
 				}
 				
 		System.out.println("starting the server");
-		WebServer ser = new WebServer();
+		RemoteExplorer ser = new RemoteExplorer();
 //		ser.startServer();
 		GUI gui = new GUI(ser);
 		

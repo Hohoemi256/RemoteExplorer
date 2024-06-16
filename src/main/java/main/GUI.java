@@ -68,7 +68,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 	private final static String CHANGE_PORT = "changePort";
 	
 
-	private WebServer serv;
+	private RemoteExplorer serv;
 	
 	private JFrame self=this;
 	
@@ -91,7 +91,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener, WindowS
 
 	
 	
-	public GUI(WebServer server) {
+	public GUI(RemoteExplorer server) {
 		serv = server;
 		updateIPlabel();
 

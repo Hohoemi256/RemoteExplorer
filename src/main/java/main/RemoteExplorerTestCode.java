@@ -6,15 +6,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class WebServerTestCode {
+public class RemoteExplorerTestCode {
 
 	  /**
-	   * WebServer constructor.
+	   * RemoteExplorer constructor.
 	   */
 	  protected void start() {
 	    ServerSocket s;
 
-	    System.out.println("Webserver starting up on port 80");
+	    System.out.println("RemoteExplorer starting up on port 80");
 	    System.out.println("(press ctrl-c to exit)");
 	    try {
 	      // create the main server socket
@@ -51,7 +51,7 @@ public class WebServerTestCode {
 	        // this blank line signals the end of the headers
 	        out.println("");
 	        // Send the HTML page
-	        out.println("<H1>Welcome to the Ultra Mini-WebServer</H2>");
+	        out.println("<H1>Welcome to the Ultra Mini-RemoteExplorer</H2>");
 	        out.flush();
 	        remote.close();
 	      } catch (Exception e) {
@@ -67,7 +67,7 @@ public class WebServerTestCode {
 	   *            Command line parameters are not used.
 	   */
 	  public static void main(String args[]) {
-	    WebServerTestCode ws = new WebServerTestCode();
+	    RemoteExplorerTestCode ws = new RemoteExplorerTestCode();
 	    ws.start();
 	  }
 }

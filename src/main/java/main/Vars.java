@@ -19,7 +19,7 @@ public class Vars {
 	/**
 	 * The filename of the html page which should be submitted when a client connects with the server
 	 * <br>Default is "index.html"
-	 * @see WebServer#HTML_PATH
+	 * @see RemoteExplorer#HTML_PATH
 	 */
 	private static String INDEX_FILE_NAME = "index.html";
 

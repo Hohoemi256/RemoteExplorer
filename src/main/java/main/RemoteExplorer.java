@@ -37,7 +37,7 @@ import kiraNeccesaryLibs.LogWriter;
  * @author Hohoemi256
  *
  */
-public class WebServer extends Vars{
+public class RemoteExplorer extends Vars{
 
 	private final static String HEADER = "header";
 	protected static final String RQ_INVALID = "INVALID", RQ_GET = "GET", RQ_HEAD = "HEAD",
@@ -85,19 +85,19 @@ public class WebServer extends Vars{
 	 * @param port the port on which the server should run
 	 * @throws IOException
 	 */
-	public WebServer(int port) throws IOException {
+	public RemoteExplorer(int port) throws IOException {
 	}
 
 	/**
 	 * Starts a server with the default port of 8080
 	 * @throws IOException
 	 */
-	public WebServer() throws IOException {
+	public RemoteExplorer() throws IOException {
 		//		init();
 	}
 
 	public static void main (String [] args) throws Exception, Throwable{
-		WebServer ser = new WebServer();
+		RemoteExplorer ser = new RemoteExplorer();
 		ser.startServer();
 		Thread.sleep(10000000);
 		ser.stopServer();

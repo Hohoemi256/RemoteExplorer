@@ -1,4 +1,4 @@
-# WebServer
+# RemoteExplorer
 A small Java application to access your PCs file system from any end terminal using a simple browser.
 I designed it with the application Airdroid in mind, available for Android, but this time the other way around, to access PC files on my smartphone (and other PCs).
 To understand more about server communication and HTTP traffic, as well as HTML, JavaScript and CSS, this project has been developed from scratch; Frontend as well as backend.
@@ -26,5 +26,5 @@ Communication is done via Ajax, so after the initial UI is sent as a webpage, ev
 
 ## ToDo:
 - Enable sorting by various properties like size, file type…
-- Add a select all button (especially for mobile users 
+- Add a select all button (especially for mobile users) 
 
