@@ -1,4 +1,4 @@
-package KiraLibs;
+package kiraNeccesaryLibs;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,9 +21,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-
-import systemIndependet.OS;
-import systemIndependet.ThreadLinkinValues;
 
 public class Internet {
 
@@ -319,12 +316,6 @@ public class Internet {
 	  }
 	  
 
-		public static void main(String argv[]) throws Exception {
-			  System.out.println("You are on OS: "+OS.currentOS());
-			  System.out.println("your IPV6 adress is: "+getIPV6());
-			  System.out.println("your locale IP is: "+getLocaleIP());
-			  System.out.println("Your MAC addres is: "+getMACAddresses());
-		}
 	  /**
 	   * Sucht nach einer IP mit der Adresse 192.168.0.* und gibt den zugehoerigen IPV6 Wert zurueck.
 	   * @return die IPV6 Adresse des Computers oder null
@@ -412,73 +403,4 @@ public class Internet {
 		return InetAddress.getLocalHost().getHostName();
 	}
 
-	/**
-	 * Tries to establish a connection to the stated adress and port. Unlike the regular creation of a {@link Socket},
-	 * this method allowes you to specify a timeout where when passed, the connection will be seen as failed and this method will return null.
-	 * The advantage of the timeout is, that the regular {@link Socket} invoking blocks when it does not find anything sometimes.
-	 * @param iP
-	 * @param port
-	 * @param timeout
-	 * @return the socket if sucessfully connected or null
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 */
-	public static Socket bindSocket(String IP, int port, int timeout) throws IOException {
-		
-		
-		final ThreadLinkinValues ret = new ThreadLinkinValues();
-		
-		Thread observer = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(timeout);
-				} catch (InterruptedException e) {}
-				
-			}
-		});
-		
-		Thread creator = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-					try {
-						Socket sok = new Socket(IP, port);
-						System.out.println("Binding of Socket sucessful");
-						ret.setObject(sok);
-						observer.interrupt();
-					} catch (IOException e) {
-						ret.setObject(e);
-						observer.interrupt();
-					}
-			}
-		});
-		
-		
-		
-		creator.start();
-		observer.start();
-		
-		try {
-			observer.join();
-		} catch (InterruptedException e) {
-		}
-		
-		if(ret.getObject() instanceof IOException) {
-			throw (IOException) ret.getObject();
-		}
-		if(ret.getObject() == null) {
-			throw new UnknownHostException("Timeout exceeded. No connection to host possible.");
-		}
-		
-		return (Socket) ret.getObject();
-		
-	}
-	
-	
-	
-	
-	  
-	  
 }

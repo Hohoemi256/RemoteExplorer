@@ -8,8 +8,7 @@ import java.io.StringReader;
 import java.util.Properties;
 import java.util.Scanner;
 
-import systemIndependet.KiraTxtIni;
-import systemIndependet.StringManipulator;
+import kiraNeccesaryLibs.KiraTxtIni;
 
 public class Vars {
 	private final static int DEFAULT_PORT = 8080;

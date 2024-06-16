@@ -23,8 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import internet.Internet;
-import systemIndependet.LogWriter;
+import kiraNeccesaryLibs.Internet;
+import kiraNeccesaryLibs.LogWriter;
 
 public class GUI extends JFrame implements ActionListener, ItemListener{
 

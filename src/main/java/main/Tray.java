@@ -18,7 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
-import image.ImageUtils;
+import kiraNeccesaryLibs.ImageUtils;
 
 //import image.ImageUtils;
 

@@ -20,8 +20,8 @@ import java.util.Hashtable;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import internet.Internet;
-import systemIndependet.KiraTxtIni;
+import kiraNeccesaryLibs.Internet;
+
 
 /**
  * If using the port 80, you dont have to specify the port in your webbrowser.
