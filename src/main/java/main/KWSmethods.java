@@ -151,7 +151,7 @@ public class KWSmethods {
 		System.out.println("------new request \""+KWS_CODES.getKWSCode(command)+"\" being handled----------");
 		System.out.println("command: "+command+" ("+KWS_CODES.getKWSCode(command)+")");
 		System.out.println("parameters: "+parameters);
-		System.out.println("body present: "+br!=null);
+		System.out.println("body present: "+ (br!=null));
 
 		switch(KWS_CODES.getKWSCode(command)) {
 		case GET_DIR_CONTENT:
@@ -160,7 +160,7 @@ public class KWSmethods {
 
 			sendSucess(out);
 			sendText(answer, out);
-			System.out.println("get dir answer sent");
+			System.out.println("get dir request answer sent");
 			return true;
 
 		case DOWNLOAD:
@@ -340,7 +340,7 @@ public class KWSmethods {
 	
 				//create XML String containing all the infos about the current path
 				String ret = "<root path=\""+XMLdir+"\">";
-				System.out.println("dir to explore "+dir);
+				System.out.println("fetching content from dir: "+dir);
 	
 				//get Drive lists if path is... well... empty and does not contain a drive letter
 				if(dir.equals("")) {
@@ -370,7 +370,6 @@ public class KWSmethods {
 					}
 				}
 				ret+="</root>";
-				System.out.println(ret);
 				return ret;
 			}
 	

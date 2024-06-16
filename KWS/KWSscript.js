@@ -318,7 +318,7 @@ function init() {
   ResizerLib.startResizeListener();
   imgExplorer.onclick = function () {
     ExplorerMethods.toggleExplorerWindow();
-    console.log("afasfajsjfash")
+    console.log("toggle explorer window")
     DESKTOP_MENU_ITEMS.createShortcut(DESKTOP_MENU_ITEMS.EXPLORER);
   };
   imgExplorer.onmouseenter = function () { mouseEnterExplorerElement(this) };
@@ -950,7 +950,7 @@ const AJAXLib = (function () {
       let ajax = AJAXLib.ajaxKWS(addParameter(KWS_CODES.DOWNLOAD, KWS_CODES.PATH, path), false, downloadResponse);
 
       ajax.responseType = "blob";
-      console.log("chanign response type to blob for incomming file to download")
+      console.log("changing response type to blob for incomming file to download")
 
       ajax.send();
     },

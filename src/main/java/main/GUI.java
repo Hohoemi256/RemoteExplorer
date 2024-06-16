@@ -70,7 +70,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener{
 	
 	private JFrame self=this;
 	
-	Tray tr = new Tray(new File("TrayIcon.png")) {
+	Tray tr = new Tray(new File(Vars.getHtmlFolderPath()+File.separator+"ServerTrayIcon.png")) {
 		
 		@Override
 		public void restore() {

@@ -21,6 +21,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import kiraNeccesaryLibs.Internet;
+import kiraNeccesaryLibs.LogWriter;
 
 
 /**
@@ -154,7 +155,7 @@ public class WebServer extends Vars{
 
 				try {
 					// wait for a connection
-					System.out.println("waiting");
+					System.out.println("waiting for connection of client to server...");
 					final Socket remote = server.accept();
 					// remote is now the connected socket
 					System.out.println("Connection accepted from " +
@@ -243,7 +244,7 @@ public class WebServer extends Vars{
 		out.flush();
 		//and close the connection for being able to connect to a new socket
 		remote.close();
-		System.out.println("all sent :)");
+		System.out.println("sent all data to client!");
 
 	}
 
@@ -303,9 +304,8 @@ public class WebServer extends Vars{
 
 		//check if the socket did not die halfway
 		String request = ".";
-		System.out.println("1");
+		LogWriter.printlnDebug("Reading next line...");
 		request = in.readLine();
-		System.out.println("2");
 		if (request == null || request.length() == 0) {
 			// No point nattering: the sock died, nobody will hear
 			// us if we scream into cyberspace... Could log it though.
@@ -313,7 +313,7 @@ public class WebServer extends Vars{
 			return null;
 		}
 
-		System.out.println("start reading incomming transmission");
+		LogWriter.printlnDebug("Read line. Start processing incomming transmission");
 
 		//save the first line as the "header", where GET, POST etc are declared
 		HashMap<String, String> ret = new HashMap<String, String>();
