@@ -5,10 +5,10 @@ To understand more about server communication and HTTP traffic, as well as HTML,
 Communication is done via Ajax, so after the initial UI is sent as a webpage, every new content will be directly inquired to the server and the UI updated accordingly on the fly.
 
 ## Install:
-1. Clone repository or download the precompiled jar file
-2. Make sure that you have the “KWS” folder at the same directory of your jar file or src folder
-3. Run the jar file or compile the src code
-4. In the GUI choose a port or leave it at 80 (default)
+1. Clone repository
+2. Make sure that you have the “KWS” folder at the same directory as the src folder
+3. Compile the src code and run the application
+4. In the GUI choose a port or leave it at 80 (default) and hit the "start server" button
 5. Afterwards in your browser type the corresponding local IP or even IP4/6 with the port that was set. E.g. "192.168.1.112:8080" when server is running on port is 8080
 6. Various settings like default port and KWS folder location can be adjusted in the settings.properties file
 
