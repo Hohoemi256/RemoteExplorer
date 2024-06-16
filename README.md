@@ -13,15 +13,11 @@ Communication is done via Ajax, so after the initial UI is sent as a webpage, ev
 6. Various settings like default port and KWS folder location can be adjusted in the settings.properties file
 
 ## Features:
-You are able to browse the complete file directory of your PC and all hard drives as long as you have the necessary permissions.
-
-You can move, copy, cut, paste files inside the browser window and the effects commands will be immediately translated and executed by the java server to the hosts file system. Delete is also possible and will move files to the trash bin if possible. If not will create a "Trash" folder at your jar location and move the files there. This is to prevent accidentally deleting important files.
-
-Uploads as well as downloads of files is possible. Download of whole folders as zip files is also possible.
-
-Usage of standard keys and combinations like DEL, CTRL+C, CTRL+V, CTRL+X.
+- You are able to browse the complete file directory of your PC and all hard drives as long as you have the necessary permissions.
+- You can move, copy, cut, paste files inside the browser window and the effects commands will be immediately translated and executed by the java server to the hosts file system. Delete is also possible and will move files to the trash bin if possible. If not will create a "Trash" folder at your jar location and move the files there. This is to prevent accidentally deleting important files.
+- Uploads as well as downloads of files is possible. Download of whole folders as zip files is also possible.
+- Usage of standard keys and combinations like DEL, CTRL+C, CTRL+V, CTRL+X.
 
 ## ToDo:
-Enable sorting by various properties like size, file type…
-
-Add a select all button (especially for mobile users 
+- Enable sorting by various properties like size, file type…
+- Add a select all button (especially for mobile users 
