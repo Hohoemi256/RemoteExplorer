@@ -2,8 +2,8 @@
 A small Java application to access your PCs file system from any end terminal using a simple browser.
 I designed it with the application Airdroid in mind, available for Android, but this time the other way around, to access PC files on my smartphone (and other PCs).
 To understand more about server communication and HTTP traffic, as well as HTML, JavaScript and CSS, this project has been developed from scratch; Frontend as well as backend.
-
 Communication is done via Ajax, so after the initial UI is sent as a webpage, every new content will be directly inquired to the server and the UI updated accordingly on the fly.
+
 ## Install:
 1. Clone repository or download the precompiled jar file
 2. Make sure that you have the “KWS” folder at the same directory of your jar file or src folder
@@ -20,6 +20,7 @@ You can move, copy, cut, paste files inside the browser window and the effects c
 Uploads as well as downloads of files is possible. Download of whole folders as zip files is also possible.
 
 Usage of standard keys and combinations like DEL, CTRL+C, CTRL+V, CTRL+X.
+
 ## ToDo:
 Enable sorting by various properties like size, file type…
 
